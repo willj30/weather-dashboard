@@ -1,0 +1,17 @@
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.card {
+    align-items: center;
+   
+}
+
+.card-body {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
