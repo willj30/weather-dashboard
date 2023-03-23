@@ -1,8 +1,11 @@
+
 let city = $("#searchTerm").val();
 
 const apiKey = "f1837a3312558b6de68f3fa4accd33b9";
 
 let date = new Date();
+
+let cityArray = [];
 
 $("#searchTerm").keypress(function(event) { 
 	
@@ -12,6 +15,8 @@ $("#searchTerm").keypress(function(event) {
 	} 
 });
 
+
+
 $("#searchBtn").on("click", function() {
 
   $('#forecastH5').addClass('show');
@@ -19,6 +24,11 @@ $("#searchBtn").on("click", function() {
   city = $("#searchTerm").val();
   
   $("#searchTerm").val("");  
+
+  getWeather(city);
+});
+
+function getWeather(city) {
 
   const queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
@@ -28,28 +38,26 @@ $("#searchBtn").on("click", function() {
   })
   .then(function (response){
 
-    console.log(response)
-
-    console.log(response.name)
-    console.log(response.weather[0].icon)
-
-
-    console.log(response.main.humidity)
-
-    console.log(response.wind.speed)
-
-    console.log(response.weather[0].main)
 
     getCurrentConditions(response);
     getCurrentForecast(response);
     makeList();
 
     })
-  });
+  };
 
   function makeList() {
-    let listItem = $("<li>").addClass("list-group-item").text(city);
+    if (cityArray.indexOf(city) === -1) {
+      cityArray.push(city);
+   
+    let listItem = $("<button>").addClass("list-group-item").text(city);
     $(".list").append(listItem);
+    
+    addEventListener("click", reloadConditions)
+  }};
+
+  function reloadConditions(e) {
+    getWeather(e.target.textContent);
   }
 
   function getCurrentConditions (response) {
